@@ -106,17 +106,19 @@ def main():
         mail.CC = CC_EMAILS
         mail.Subject = SUBJECT
 
-        # 1️⃣ Display once to load signature
-        mail.Display()
-
-        #    2️⃣ Get the signature that Outlook injected
+        # Load signature quietly
+        mail.Display(False)
         signature = mail.HTMLBody
 
-        # 3️⃣ Add your content ABOVE the signature
+        # Put your HTML above signature
         mail.HTMLBody = BODY_TEMPLATE.format(name=name) + "<br><br>" + signature
 
-        # 4️⃣ Send
-        mail.Send()
+        if SEND_EMAILS:
+          mail.Send()
+          sent += 1
+        else:
+          mail.Display()  # open draft for review
+
 
 
         if SEND_EMAILS:
